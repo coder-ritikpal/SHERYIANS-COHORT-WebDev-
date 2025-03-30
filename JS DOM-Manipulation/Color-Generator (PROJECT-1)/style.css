@@ -22,18 +22,24 @@ body h1 {
   color: gold;
   font-size: 5vw;
 }
+body h2 {
+  color: white;
+  font-size: 4vw;
+}
 body .color-section {
-  width: 250px;
-  height: 250px;
+  width: 30vw;
+  height: 30vh;
   background-color: rgb(255, 255, 255);
   display: flex;
-  border-radius: 50%;
   border: 10px solid gray;
 }
 body button {
-  padding: 1rem;
   background-color: green;
-  font-size: 1.5vw;
+  font-size: 2vw;
+  font-weight: 900;
+  color: white;
+  width: 20vw;
+  height: 10vh;
 }
 body button:active {
   scale: 0.95;
