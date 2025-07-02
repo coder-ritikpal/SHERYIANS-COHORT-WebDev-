@@ -1,0 +1,67 @@
+{
+  "users": [
+    {
+      "id": "7u_lDy_UQfThBsJKWToYZ",
+      "username": "admin.master",
+      "email": "admin@master.com",
+      "password": "123456",
+      "isAdmin": true,
+      "cart": []
+    },
+    {
+      "id": "MkBjrueLhk2hB84hWOsrX",
+      "username": "sheryians.ai",
+      "email": "sheryians@ai.com",
+      "password": "123456",
+      "isAdmin": false,
+      "cart": [
+        {
+          "product": {
+            "id": "1",
+            "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+            "price": 109.95,
+            "description": "Your perfect pack for everyday use and walks in the forest. Stash your laptop (up to 15 inches) in the padded sleeve, your everyday",
+            "category": "men's clothing",
+            "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg"
+          },
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "id": "RgniltGK0xRQUQTHsV5_a",
+      "username": "ritik",
+      "email": "ritik@pal.com",
+      "password": "993097",
+      "isAdmin": false,
+      "cart": []
+    }
+  ],
+  "products": [
+    {
+      "id": "1",
+      "title": "Exotic  Hand Bag",
+      "price": "125",
+      "description": "Stylish bag for party and all showoff with a bold impression on social way",
+      "category": "fashion style",
+      "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcS2jzh_PFwz79aHla4nYBt_9Hpxe8PbI05RXfSW-4r-t2VseCz4bMU7Ma2bMfOYm446I_1Vz8vzWlZbphOEWNS5HcCqxYvfSQGnlvJnFg9ttGFR7wtpvPx8qQ"
+    },
+    {
+      "id": "gOWPUUIrV03X85nUNJxxa",
+      "image": "https://contents.mediadecathlon.com/p2410169/49d374ab443b1ffdcde34d9bec3362a7/p2410169.jpg?format=auto&quality=70&f=2520x0",
+      "title": "Cricket Bat",
+      "price": "900",
+      "description": "Kids popular wood bat",
+      "category": "Sports"
+    },
+    {
+      "id": "vrABcvYmUTdOzFnIzLfch",
+      "image": "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcSnsJOSgivoRG1NRMZZgC3RlOn9q69I3cs9WY2hrqiqrAm4uuDEBufdFG7dCWX_a3MSsERO3sSAULTCQIDAlHXLWX2tYXUKKJLUeKUz--z_0jQljnF2_aH_rQ",
+      "title": "Watches for men",
+      "price": "199",
+      "description": "A casual and stylish wear for mens .And to shine in a party",
+      "category": "Fashion"
+    }
+  ],
+  "carts": []
+}
