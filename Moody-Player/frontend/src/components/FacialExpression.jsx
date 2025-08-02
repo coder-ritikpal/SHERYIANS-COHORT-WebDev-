@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from 'react';
 import * as faceapi from 'face-api.js';
+import axios from 'axios';
 
-export default function FacialExpressionApp() {
+export default function FacialExpressionApp({ setSongs }) {
   const videoRef = useRef();
   const [expression, setExpression] = useState('');
 
@@ -13,13 +14,14 @@ export default function FacialExpressionApp() {
     };
 
     const startVideo = () => {
-      navigator.mediaDevices.getUserMedia({ video: true })
+      navigator.mediaDevices
+        .getUserMedia({ video: true })
         .then((stream) => {
           if (videoRef.current) {
             videoRef.current.srcObject = stream;
           }
         })
-        .catch((err) => console.error("Webcam error:", err));
+        .catch((err) => console.error('Webcam error:', err));
     };
 
     loadModels().then(startVideo);
@@ -32,10 +34,9 @@ export default function FacialExpressionApp() {
 
     if (detection && detection.expressions) {
       const expressions = detection.expressions;
-      const mostLikely = Object.entries(expressions).reduce((a, b) =>
-        a[1] > b[1] ? a : b
-      );
+      const mostLikely = Object.entries(expressions).reduce((a, b) => (a[1] > b[1] ? a : b));
       const [expName, score] = mostLikely;
+
       const emojiMap = {
         happy: '😊',
         sad: '😢',
@@ -45,41 +46,58 @@ export default function FacialExpressionApp() {
         disgusted: '🤢',
         neutral: '😐',
       };
+
       setExpression(`${expName.toUpperCase()} ${emojiMap[expName] || ''} (${(score * 100).toFixed(1)}%)`);
+
+      try {
+        const res = await axios.get(`http://localhost:3000/songs?mood=${expName.toLowerCase()}`);
+        setSongs(res.data.songs);
+      } catch (error) {
+        console.error('Error fetching songs:', error);
+      }
     } else {
       setExpression('No face detected 😕');
     }
   };
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white flex flex-col items-center justify-center px-4 py-8">
-      <h1 className="text-3xl font-bold mb-8 text-center">🎭 Facial Expression Detector</h1>
+    <div
+      className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white px-4 sm:px-6 py-10 sm:py-16 flex flex-col items-center justify-center"
+      style={{
+        backgroundImage: `url('https://images.unsplash.com/photo-1561601005-ed71cd01155b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA5fHxsaWdodG5pbmclMjBwYXJ0eXxlbnwwfHwwfHx8MA%3D%3D')`,
+        backgroundSize: 'cover',
+        backgroundBlendMode: 'overlay',
+      }}
+    >
+      <h1 className="text-4xl sm:text-5xl font-bold mb-10 text-center drop-shadow-lg">🎭 Moody Musics</h1>
 
-      <div className="flex flex-col md:flex-row items-center gap-8 w-full max-w-5xl">
-        <div className="w-full md:w-1/2 flex justify-center">
+      <div className="flex flex-col lg:flex-row items-center gap-10 w-full max-w-6xl bg-white/5 backdrop-blur-md rounded-2xl p-6 sm:p-10 shadow-2xl border border-white/10">
+        {/* Camera */}
+        <div className="w-full lg:w-1/2 flex justify-center">
           <video
             ref={videoRef}
             autoPlay
             muted
             playsInline
-            className="w-full max-w-xs sm:max-w-sm md:max-w-md rounded-lg border border-gray-700 shadow"
+            className="w-full max-w-[90vw] sm:max-w-sm md:max-w-md rounded-xl border border-gray-700 shadow-lg"
           />
         </div>
 
-        <div className="w-full md:w-1/2 text-center md:text-left">
-          <p className="text-lg mb-4">
-            This app uses your webcam and AI to detect your current facial expression using machine learning models.
-            Click the button below to analyze your face and see what emotion you're expressing!
+        {/* Description and Button */}
+        <div className="w-full lg:w-1/2 text-center lg:text-left space-y-5">
+          <p className="text-base sm:text-lg leading-relaxed text-gray-300">
+            Our AI detects your facial expression and finds songs that match your current mood.
+            Just look into the camera and hit the button below to begin!
           </p>
 
           <button
             onClick={handleDetectExpression}
-            className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 transition-colors rounded-lg text-lg font-medium"
+            className="px-6 sm:px-8 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-lg text-base sm:text-lg font-semibold shadow-md transition-all duration-300 hover:scale-105"
           >
-            Detect Expression
+            🎯 Detect My Mood
           </button>
 
-          <div className="mt-4 text-xl font-semibold text-green-400">
+          <div className="text-xl sm:text-2xl font-semibold text-green-400 mt-4 break-words min-h-[2.5rem]">
             {expression}
           </div>
         </div>
