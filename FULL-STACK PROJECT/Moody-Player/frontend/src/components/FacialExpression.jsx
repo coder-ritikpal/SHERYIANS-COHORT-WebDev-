@@ -50,7 +50,7 @@ export default function FacialExpressionApp({ setSongs }) {
       setExpression(`${expName.toUpperCase()} ${emojiMap[expName] || ''} (${(score * 100).toFixed(1)}%)`);
 
       try {
-        const res = await axios.get(`https://moddy-player-backend.onrender.com/songs?mood=${expName.toLowerCase()}`);
+        const res = await axios.get(`https://moody-music-backend-ic2j.onrender.com/songs?mood=${expName.toLowerCase()}`);
         setSongs(res.data.songs);
       } catch (error) {
         console.error('Error fetching songs:', error);
