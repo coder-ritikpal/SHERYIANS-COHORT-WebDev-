@@ -20,7 +20,7 @@ router.post('/songs',upload.single("audio"),async(req,res)=>{
 
     res.status(201).json({
         message:"Song posted successfully.",
-        song:req.body
+        song:song
     })
 
 })
