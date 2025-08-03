@@ -62,7 +62,7 @@ export default function FacialExpressionApp({ setSongs }) {
 
   return (
     <div
-      className="min-h-screen bg-gradient-to-br from-black via-gray-900 to-black text-white px-4 sm:px-6 py-10 sm:py-16 flex flex-col items-center justify-center"
+      className=" bg-gradient-to-br from-black via-gray-900 to-black text-white px-4 sm:px-6 py-10 sm:py-16 flex flex-col items-center "
       style={{
         backgroundImage: `url('https://images.unsplash.com/photo-1561601005-ed71cd01155b?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTA5fHxsaWdodG5pbmclMjBwYXJ0eXxlbnwwfHwwfHx8MA%3D%3D')`,
         backgroundSize: 'cover',
@@ -73,17 +73,17 @@ export default function FacialExpressionApp({ setSongs }) {
 
       <div className="flex flex-col lg:flex-row items-center gap-10 w-full max-w-6xl bg-white/5 backdrop-blur-md rounded-2xl p-6 sm:p-10 shadow-2xl border border-white/10">
         {/* Camera */}
-        <div className="w-full lg:w-1/2 flex justify-center">
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            playsInline
-            className="w-full max-w-[90vw] sm:max-w-sm md:max-w-md rounded-xl border border-gray-700 shadow-lg"
-          />
-        </div>
+       <div className="relative w-full max-w-[220px] sm:max-w-[260px] aspect-square rounded-full shadow-[0_0_30px_rgba(0,255,135,0.2)] ring-2 ring-green-400 overflow-hidden">
+  <video
+    ref={videoRef}
+    autoPlay
+    muted
+    playsInline
+    className="w-full h-full object-cover"
+  />
+  
+</div>
 
-        {/* Description and Button */}
         <div className="w-full lg:w-1/2 text-center lg:text-left space-y-5">
           <p className="text-base sm:text-lg leading-relaxed text-gray-300">
             Our AI detects your facial expression and finds songs that match your current mood.
@@ -97,7 +97,7 @@ export default function FacialExpressionApp({ setSongs }) {
             🎯 Detect My Mood
           </button>
 
-          <div className="text-xl sm:text-2xl font-semibold text-green-400 mt-4 break-words min-h-[2.5rem]">
+          <div className="text-xl sm:text-2xl font-semibold text-green-950 mt-4 break-words min-h-[2.5rem]">
             {expression}
           </div>
         </div>

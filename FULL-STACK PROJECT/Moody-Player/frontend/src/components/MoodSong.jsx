@@ -72,14 +72,14 @@ const MoodSong = ({ Songs }) => {
 
   return (
     <div
-      className="min-h-screen px-4 py-10 bg-gradient-to-br from-black via-gray-900 to-black text-white"
+      className=" px-4 py-10 bg-gradient-to-br from-black via-gray-900 to-black text-white"
       style={{
         backgroundImage: `url('https://images.unsplash.com/photo-1543958861-9c555a270d93?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NzV8fGxpZ2h0bmluZyUyMHBhcnR5fGVufDB8fDB8fHww')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
       }}
     >
-      <h2 className="text-3xl font-bold mb-8 text-center drop-shadow-md">🎵 Vibe with Our Playlist</h2>
+      <h2 className="text-3xl font-bold mb-8 text-center drop-shadow-md">🎵 Recommended Playlist</h2>
 
       <div className="space-y-8 max-w-3xl mx-auto">
         {Songs.map((song, index) => (
@@ -90,7 +90,6 @@ const MoodSong = ({ Songs }) => {
                 currentIndex === index ? "border-green-400" : "border-white/10"
               }`}
           >
-            {/* Left: Song Info + Seek + Timer + Volume */}
             <div className="flex-1 w-full">
               <h3 className="text-xl font-semibold text-white">{song.title}</h3>
               <p className="text-sm text-gray-300">{song.artist}</p>
@@ -129,7 +128,6 @@ const MoodSong = ({ Songs }) => {
               )}
             </div>
 
-            {/* Right: Play/Pause Button */}
             <div className="min-w-[60px] flex items-center justify-center">
               <button
                 className="text-3xl text-white hover:text-green-400 transition"
