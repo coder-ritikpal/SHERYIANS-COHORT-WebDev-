@@ -33,25 +33,22 @@ async function loginController(req, res) {
   const user = await userModel.findOne({ username });
 
   if (!user) {
-    return res.status(409).json({
-      message: "User not found.",
-    });
+    return res.status(400).json({ message: "Invalid username or password." });
   }
 
-  const isPasswordValid = await bcrypt.compare(password,user.password);
+  const isPasswordValid = await bcrypt.compare(password, user.password);
 
   if (!isPasswordValid) {
-    return res.status(400).json({
-      message: "Invalid password",
-    });
+    return res.status(400).json({ message: "Invalid username or password." });
   }
 
   const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET_KEY);
 
-  res.cookie("token", token);
+  res.cookie("token", token, { httpOnly: true, secure: process.env.NODE_ENV === "production" });
 
   res.status(200).json({
-    message: "Login successfull.",
+    message: "Login successful.",
+    token, // ✅ Now your frontend's `res.data.token` will exist
     user: {
       username: user.username,
       id: user._id,
