@@ -30,4 +30,13 @@ router.post( '/', authMiddleware,
     createPostController
 );
 
+router.get("/api/posts", async (req, res) => {
+  try {
+    const posts = await postModel.find().populate("user", "username");
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({ message: "Failed to fetch posts" });
+  }
+});
+
 module.exports = router;
