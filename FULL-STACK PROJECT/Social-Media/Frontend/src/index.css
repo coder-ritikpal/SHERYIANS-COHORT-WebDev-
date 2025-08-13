@@ -1,5 +1,0 @@
-@import "tailwindcss";
-
-.drop-shadow-glow {
-  filter: drop-shadow(0 0 8px rgba(59, 130, 246, 0.8));
-}
