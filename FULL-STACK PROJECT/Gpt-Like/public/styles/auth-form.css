@@ -1,6 +1,8 @@
+@import './theme.css';
+
 body {
-    background: linear-gradient(135deg, #232323 0%, #1a237e 100%);
-    color: #f1f1f1;
+    background-color: var(--bg);
+    color: var(--text);
     font-family: 'Segoe UI', Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -14,31 +16,30 @@ body {
 h1 {
     text-align: center;
     margin: 32px 0 18px 0;
-    color: #00eaff;
+    color: var(--accent);
     font-size: 2rem;
     letter-spacing: 1px;
-    text-shadow: 0 2px 16px #00eaff80;
+    text-shadow: 0 2px 16px var(--accent-40);
 }
 
 form {
-    background: linear-gradient(120deg, #232323 60%, #00eaff 100%);
+    background: linear-gradient(120deg, var(--card-start) 60%, var(--card-end) 100%);
     padding: 28px 18px;
-    border-radius: 16px;
-    box-shadow: 0 8px 32px rgba(0,0,0,0.7), 0 2px 0 #00eaff;
+    border-radius: var(--radius-lg);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.7), 0 2px 0 var(--accent);
     max-width: 400px;
     width: 100%;
     margin: 0 auto;
     box-sizing: border-box;
     display: flex;
-    flex-direction: column;
-    gap: 18px;
-    border: 2px solid #00eaff;
+    flex-direction: column;  
+    border: 2px solid var(--accent);
     align-items: stretch;
 }
 
 label {
-    color: #bdbdbd;
-    font-size: 1.08rem;
+    color: var(--muted);
+    font-size: var(--font-size-lg);
     margin-bottom: 4px;
     font-weight: 500;
     letter-spacing: 0.5px;
@@ -47,42 +48,42 @@ label {
 input[type="text"],
 input[type="email"],
 input[type="password"] {
-    background: #181818;
-    color: #f1f1f1;
-    border: 1.5px solid #00eaff;
-    border-radius: 8px;
-    padding: 12px;
-    font-size: 1.08rem;
+    background: var(--input-bg);
+    color: var(--text);
+    border: 1.5px solid var(--accent);
+    border-radius: var(--radius-md);
+    padding: var(--spacing-sm);
+    font-size: var(--font-size-lg);
     outline: none;
     transition: border-color 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 8px #00eaff40;
+    box-shadow: 0 2px 8px var(--accent-40);
 }
 
 input[type="text"]:focus,
 input[type="email"]:focus,
 input[type="password"]:focus {
-    border-color: #00eaff;
-    box-shadow: 0 0 0 2px #00eaff80;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 2px var(--accent-80);
 }
 
 button[type="submit"] {
-    background: linear-gradient(90deg, #00eaff 0%, #1a237e 100%);
+    background: linear-gradient(90deg, var(--btn-start) 0%, var(--btn-end) 100%);
     color: #fff;
     border: none;
-    border-radius: 8px;
+    border-radius: var(--radius-md);
     padding: 14px;
-    font-size: 1.08rem;
+    font-size: var(--font-size-lg);
     cursor: pointer;
     font-weight: 700;
     letter-spacing: 0.5px;
-    box-shadow: 0 2px 12px #00eaff80;
+    box-shadow: 0 2px 12px var(--accent-40);
     transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
 }
 
 button[type="submit"]:hover {
-    background: linear-gradient(90deg, #1a237e 0%, #00eaff 100%);
+    background: linear-gradient(90deg, var(--btn-hover-start) 0%, var(--btn-hover-end) 100%);
     transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 4px 18px #00eaffa0;
+    box-shadow: 0 4px 18px var(--accent-80);
 }
 
 @media (max-width: 600px) {
@@ -95,19 +96,18 @@ button[type="submit"]:hover {
         padding: 0;
     }
     h1 {
-        font-size: 1.3rem;
+        font-size: 2rem;
         margin: 18px 0 10px 0;
     }
     form {
-        max-width: 98vw;
+        max-width: 80vw;
         padding: 14px 4vw;
         border-radius: 10px;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.5), 0 1px 0 #00eaff;
-        gap: 10px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.5), 0 1px 0 var(--accent);
         margin: 0 auto;
     }
     input[type="text"],

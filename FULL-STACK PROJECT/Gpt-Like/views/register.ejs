@@ -3,12 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Register</title>
     <link rel="stylesheet" href="/public/styles/auth-form.css">
 </head>
 <body>
-    <h1>Register Page</h1>
-    <form action="/register" method="POST">
+    <h1>Create Account 😎</h1>
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div style="color:rgb(219, 10, 10);text-align:center;margin-bottom:10px;font-weight:700;font-size: larger;">
+        <%= error %>
+      </div>
+    <% } %>
+    <form action="/auth/register" method="POST">
         <label for="username">Username:</label>
         <input type="text" id="username" name="username" required>
         <br>
@@ -20,6 +25,9 @@
         <br>
         <button type="submit">Register</button>
     </form>
-    
+    <div style="margin-top:18px;text-align:center;">
+        <span>Already have an account?</span>
+        <a href="/auth/login" style="color:var(--accent);font-weight:600;">Login</a>
+    </div>
 </body>
 </html>

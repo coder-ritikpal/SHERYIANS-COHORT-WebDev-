@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="/public/styles/auth-form.css">
+</head>
+<body>
+    <h1>Welcome Back 😍</h1>
+    <% if (typeof error !== 'undefined' && error) { %>
+      <div style="color:rgb(219, 10, 10);text-align:center;margin-bottom:10px;font-weight:700;font-size: larger">
+        <%= error %>
+      </div>
+    <% } %>
+    <form action="/auth/login" method="POST">
+        <label for="identifier">Username or Email:</label>
+        <input type="text" id="identifier" name="identifier" required>
+        <br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Login</button>
+    </form>
+    <div style="margin-top:18px;text-align:center;">
+        <span>Don't have an account?</span>
+        <a href="/auth/register" style="color:var(--accent);font-weight:600;">Register</a>
+    </div>
+</body>
+</html>

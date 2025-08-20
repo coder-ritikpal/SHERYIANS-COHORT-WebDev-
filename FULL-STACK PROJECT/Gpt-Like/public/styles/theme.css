@@ -1,0 +1,25 @@
+:root {
+    --bg: #11032a;
+
+    --card-start: #141212;
+    --card-end: #085960;
+
+    --text: #f1f1f1;
+    --muted: #bdbdbd;
+
+    --accent: #00eaff;
+    --accent-80: rgba(0,234,255,0.5);
+    --accent-40: rgba(0,234,255,0.25);
+
+    --input-bg: #1b1a1a;
+
+    --btn-start: #00eaff;
+    --btn-end: #1a237e;
+    --btn-hover-start: #1a237e;
+    --btn-hover-end: #02383d;
+
+    --radius-lg: 16px;
+    --radius-md: 8px;
+    --spacing-sm: 12px;
+    --font-size-lg: 1.08rem;
+}
