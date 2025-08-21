@@ -1,120 +1,164 @@
 @import './theme.css';
 
-body {
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: 'Segoe UI', Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
 }
 
-h1 {
-    text-align: center;
-    margin: 32px 0 18px 0;
-    color: var(--accent);
-    font-size: 2rem;
-    letter-spacing: 1px;
-    text-shadow: 0 2px 16px var(--accent-40);
+body {
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
 }
+
+
+.auth-container {
+  background: linear-gradient(135deg, var(--card-start), var(--card-end));
+  padding: 2rem 2.5rem;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.6);
+  width: 100%;
+  max-width: 420px;
+  text-align: center;
+  animation: fadeIn 0.6s ease-in-out;
+  border: 1px solid var(--accent-40);
+}
+
+.auth-container h1 {
+  margin-bottom: 1.5rem;
+  font-size: 1.9rem;
+  background: linear-gradient(90deg, var(--btn-start), var(--btn-end));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
 
 form {
-    background: linear-gradient(120deg, var(--card-start) 60%, var(--card-end) 100%);
-    padding: 28px 18px;
-    border-radius: var(--radius-lg);
-    box-shadow: 0 8px 32px rgba(0,0,0,0.7), 0 2px 0 var(--accent);
-    max-width: 400px;
-    width: 100%;
-    margin: 0 auto;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;  
-    border: 2px solid var(--accent);
-    align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  text-align: left;
 }
 
 label {
-    color: var(--muted);
-    font-size: var(--font-size-lg);
-    margin-bottom: 4px;
-    font-weight: 500;
-    letter-spacing: 0.5px;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
 }
 
-input[type="text"],
-input[type="email"],
-input[type="password"] {
-    background: var(--input-bg);
-    color: var(--text);
-    border: 1.5px solid var(--accent);
-    border-radius: var(--radius-md);
-    padding: var(--spacing-sm);
-    font-size: var(--font-size-lg);
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-    box-shadow: 0 2px 8px var(--accent-40);
+input {
+  padding: 10px 12px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--accent-40);
+  background: var(--input-bg);
+  color: var(--text);
+  outline: none;
+  font-size: var(--font-size-lg);
+  transition: all 0.3s ease;
 }
 
-input[type="text"]:focus,
-input[type="email"]:focus,
-input[type="password"]:focus {
-    border-color: var(--accent);
-    box-shadow: 0 0 0 2px var(--accent-80);
+input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 8px var(--accent-80);
 }
 
-button[type="submit"] {
-    background: linear-gradient(90deg, var(--btn-start) 0%, var(--btn-end) 100%);
-    color: #fff;
-    border: none;
-    border-radius: var(--radius-md);
-    padding: 14px;
-    font-size: var(--font-size-lg);
-    cursor: pointer;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    box-shadow: 0 2px 12px var(--accent-40);
-    transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+/* ==============================
+   Buttons
+============================== */
+button {
+  margin-top: 8px;
+  padding: 12px;
+  border-radius: var(--radius-md);
+  border: none;
+  background: linear-gradient(135deg, var(--btn-start), var(--btn-end));
+  color: white;
+  font-weight: 600;
+  font-size: var(--font-size-lg);
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-button[type="submit"]:hover {
-    background: linear-gradient(90deg, var(--btn-hover-start) 0%, var(--btn-hover-end) 100%);
-    transform: translateY(-2px) scale(1.05);
-    box-shadow: 0 4px 18px var(--accent-80);
+button:hover {
+  background: linear-gradient(135deg, var(--btn-hover-start), var(--btn-hover-end));
+  transform: translateY(-1px);
 }
 
-@media (max-width: 600px) {
-    body {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        min-height: 100vh;
-        padding: 0;
-    }
-    h1 {
-        font-size: 2rem;
-        margin: 18px 0 10px 0;
-    }
-    form {
-        max-width: 80vw;
-        padding: 14px 4vw;
-        border-radius: 10px;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 4px 16px rgba(0,0,0,0.5), 0 1px 0 var(--accent);
-        margin: 0 auto;
-    }
-    input[type="text"],
-    input[type="email"],
-    input[type="password"],
-    button[type="submit"] {
-        font-size: 1rem;
-        padding: 10px;
-    }
+button:active {
+  transform: scale(0.98);
+}
+
+/* ==============================
+   Error Message
+============================== */
+.error-message {
+  background: rgba(255, 50, 50, 0.15);
+  border: 1px solid rgba(255, 77, 77, 0.7);
+  color: #ff4d4d;
+  padding: 10px;
+  border-radius: var(--radius-md);
+  margin-bottom: 1rem;
+  font-weight: 600;
+  font-size: 0.95rem;
+  text-align: center;
+  box-shadow: 0 0 10px rgba(255, 77, 77, 0.3);
+}
+
+/* ==============================
+   Switch Between Pages
+============================== */
+.auth-switch {
+  margin-top: 1.3rem;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.auth-switch a {
+  color: var(--accent);
+  font-weight: 600;
+  text-decoration: none;
+  margin-left: 4px;
+  transition: color 0.3s ease;
+}
+
+.auth-switch a:hover {
+  color: var(--btn-hover-start);
+}
+
+/* ==============================
+   Animations
+============================== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==============================
+   Responsive
+============================== */
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 1.5rem;
+    border-radius: 12px;
+  }
+
+  .auth-container h1 {
+    font-size: 1.5rem;
+  }
+
+  input,
+  button {
+    font-size: 0.9rem;
+  }
 }

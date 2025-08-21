@@ -7,27 +7,30 @@
     <link rel="stylesheet" href="/public/styles/auth-form.css">
 </head>
 <body>
-    <h1>Create Account 😎</h1>
-    <% if (typeof error !== 'undefined' && error) { %>
-      <div style="color:rgb(219, 10, 10);text-align:center;margin-bottom:10px;font-weight:700;font-size: larger;">
-        <%= error %>
-      </div>
-    <% } %>
-    <form action="/auth/register" method="POST">
-        <label for="username">Username:</label>
-        <input type="text" id="username" name="username" required>
-        <br>
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        <br>
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        <br>
-        <button type="submit">Register</button>
-    </form>
-    <div style="margin-top:18px;text-align:center;">
-        <span>Already have an account?</span>
-        <a href="/auth/login" style="color:var(--accent);font-weight:600;">Login</a>
+    <div class="auth-container">
+        <h1>Create Account </h1>
+
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div class="error-message"><%= error %></div>
+        <% } %>
+
+        <form action="/auth/register" method="POST">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">Register</button>
+        </form>
+
+        <div class="auth-switch">
+            <span>Already have an account?</span>
+            <a href="/auth/login">Login</a>
+        </div>
     </div>
 </body>
 </html>
