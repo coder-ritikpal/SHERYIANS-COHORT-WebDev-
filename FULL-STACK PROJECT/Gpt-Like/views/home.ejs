@@ -1,36 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GPT Clone</title>
-    <link rel="stylesheet" href="/public/styles/home.css">
-</head>
-<body>
 
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GPT Clone</title>
+    <link rel="stylesheet" href="/public/styles/home.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+
+<body>
     <div class="container">
-        <button class="sidebar-toggle" id="sidebarToggle" aria-label="Toggle menu">
-            &#9776;
-        </button>
+        <!-- Sidebar -->
         <aside class="sidebar" id="sidebar">
-            <h2>ChatGPT</h2>
-            <ul>
-                <li>New chat</li>
-                <li>Search chats</li>
-                <li>Library</li>
-                <li>Settings</li>
+            <div class="sidebar-header">
+                <h2>ChatGPT </h2>
+                <button class="sidebar-close" id="sidebarClose">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+            <ul class="sidebar-menu">
+                <li><i class="fa-solid fa-plus"></i> New chat</li>
+                <li><i class="fa-solid fa-magnifying-glass"></i> Search chats</li>
+                <li><i class="fa-solid fa-book"></i> Library</li>
+                <li><i class="fa-solid fa-gear"></i> Settings</li>
             </ul>
         </aside>
+
+        <!-- Chat Section -->
         <section class="chat-section">
+            <header class="chat-header">
+                <button id="sidebarToggle" class="sidebar-toggle"><i class="fa-solid fa-bars"></i></button>
+                <span>ChatGPT</span>
+            </header>
+
             <div class="chat-messages" id="chatMessages">
-                <!-- Messages will appear here -->
             </div>
+
             <form class="chat-input" id="chatForm">
                 <input type="text" id="chatInput" placeholder="Ask anything..." autocomplete="off" required />
-                <button type="submit">Send</button>
+                <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
             </form>
         </section>
     </div>
     <script src="/public/scripts/home-chat.js"></script>
 </body>
+
 </html>
