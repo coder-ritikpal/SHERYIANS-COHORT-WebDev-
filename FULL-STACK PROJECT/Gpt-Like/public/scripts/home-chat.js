@@ -1,5 +1,4 @@
-// Dummy chat logic for home page
-// All chat functionality in one script
+// Real chat logic for home page (AI + Socket.io)
 
 document.addEventListener('DOMContentLoaded', function() {
     const chatForm = document.getElementById('chatForm');
@@ -9,15 +8,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const sidebar = document.getElementById('sidebar');
     const sidebarClose = document.getElementById('sidebarClose'); // close button
 
-    const dummyReplies = [
-        "Hey Ritik! 👋 How’s it going?",
-        "I'm here to help you. What do you want to know?",
-        "You can ask me anything!",
-        "Let's build something awesome together.",
-        "Sure, I can assist you with that.",
-        "Here's a tip: Stay curious!"
-    ];
-    let replyIndex = 0;
+    // ✅ Connect to Socket.IO server
+    const socket = io("http://localhost:3000"); // change URL if deployed
 
     // Append messages
     function appendMessage(text, sender = 'user') {
@@ -28,23 +20,37 @@ document.addEventListener('DOMContentLoaded', function() {
         chatMessages.scrollTop = chatMessages.scrollHeight;
     }
 
-    // Handle form submit
+    // Handle form submit (user sends message)
     chatForm.addEventListener('submit', function(e) {
         e.preventDefault();
         const userMsg = chatInput.value.trim();
         if (!userMsg) return;
+
+        // Show user message in chat
         appendMessage(userMsg, 'user');
         chatInput.value = '';
-        setTimeout(() => {
-            appendMessage(dummyReplies[replyIndex % dummyReplies.length], 'bot');
-            replyIndex++;
-        }, 700);
+
+        // Send to backend AI service
+        socket.emit('ai-message', userMsg);
+
+        // Show "typing..." placeholder while waiting
+        appendMessage("...", 'bot-typing');
+    });
+
+    // ✅ Listen for AI response
+    socket.on('ai-response', function(data) {
+        // Remove "typing..." placeholder if present
+        const typingMsg = chatMessages.querySelector('.bot-typing');
+        if (typingMsg) typingMsg.remove();
+
+        // Show actual AI message
+        appendMessage(data, 'bot');
     });
 
     // Sidebar toggle (mobile)
     if (sidebarToggle && sidebar) {
         sidebarToggle.addEventListener('click', function (e) {
-            e.stopPropagation(); // prevent triggering outside click
+            e.stopPropagation(); 
             sidebar.classList.add('open');
         });
     }
