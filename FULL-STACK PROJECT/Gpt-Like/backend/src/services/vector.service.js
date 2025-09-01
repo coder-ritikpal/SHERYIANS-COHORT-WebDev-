@@ -7,12 +7,6 @@ const pc = new Pinecone({ apiKey: process.env.PINECONE_API_KEY });
 // Choose index
 const mitraAIIndex = pc.Index("mitra-ai");
 
-
-function safeString(value) {
-  if (!value) return "";
-  return value.toString();
-}
-
 /**
  * Create memory (upsert a vector into Pinecone)
  */
@@ -20,14 +14,10 @@ async function createMemory({ vector, metadata, id }) {
   try {
     const upsertData = [
       {
-        id: safeString(id),
+        id: id.toString(), // Ensure it's a string
         values: vector,
         metadata: {
-          ...metadata,
-          user: metadata?.user ? safeString(metadata.user) : undefined,
-          chat: metadata?.chat ? safeString(metadata.chat) : undefined,
-          role: metadata?.role ? safeString(metadata.role) : undefined,
-          text: metadata?.text ? safeString(metadata.text) : undefined,
+          ...metadata, // Pass directly
         },
       },
     ];
@@ -42,15 +32,18 @@ async function createMemory({ vector, metadata, id }) {
 
 /**
  * Query memory (find similar vectors)
+ * scope = "stm" (short-term memory → user + chat)
+ * scope = "ltm" (long-term memory → user only, across all chats)
  */
-async function queryMemory({ queryVector, limit = 5, metadata }) {
+async function queryMemory({ queryVector, limit = 5, user, chat, scope = "ltm" }) {
   try {
-    const filter = metadata
-      ? {
-          ...(metadata.user && { user: safeString(metadata.user) }),
-          ...(metadata.chat && { chat: safeString(metadata.chat) }),
-        }
-      : undefined;
+    let filter;
+
+    if (scope === "stm") {
+      filter = { user, chat };
+    } else if (scope === "ltm") {
+      filter = { user };
+    }
 
     const data = await mitraAIIndex.query({
       vector: queryVector,
@@ -59,6 +52,7 @@ async function queryMemory({ queryVector, limit = 5, metadata }) {
       includeMetadata: true,
     });
 
+    console.log(`📥 Retrieved ${scope.toUpperCase()} matches:`, data.matches?.length || 0);
     return data.matches || [];
   } catch (error) {
     console.error("❌ Error querying memory:", error);
@@ -66,18 +60,4 @@ async function queryMemory({ queryVector, limit = 5, metadata }) {
   }
 }
 
-/**
- * Delete memory (remove vector by ID)
- */
-async function deleteMemory(id) {
-  try {
-    const stringId = safeString(id);
-    await mitraAIIndex.deleteOne(stringId);
-    console.log("🗑️ Memory deleted:", stringId);
-  } catch (error) {
-    console.error("❌ Error deleting memory:", error);
-    throw error;
-  }
-}
-
-module.exports = { createMemory, queryMemory, deleteMemory };
+module.exports = { createMemory, queryMemory };

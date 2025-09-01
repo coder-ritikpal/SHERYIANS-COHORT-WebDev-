@@ -4,7 +4,10 @@ const jwt = require("jsonwebtoken");
 const aiService = require("../services/ai.service");
 const messageModel = require("../models/message.model");
 const userModel = require("../models/user.model");
-const { createMemory, queryMemory, deleteMemory } = require("../services/vector.service");
+const {
+  createMemory,
+  queryMemory,
+} = require("../services/vector.service");
 
 function initSocketServer(httpServer) {
   const io = new Server(httpServer, {});
@@ -32,98 +35,112 @@ function initSocketServer(httpServer) {
 
   io.on("connection", (socket) => {
     // ---- AI Message Event ----
-    socket.on("ai-message", async (messagePayload) => {
+    socket.on("user-message", async (messagePayload) => {
+      const userId = socket.user.id.toString();       // ✅ Always string
+      const chatId = messagePayload.chat.toString();  // ✅ Always string
+
+      // 1. Save user message in DB
       const message = await messageModel.create({
-        user: socket.user.id,
-        chat: messagePayload.chat,
+        user: userId,
+        chat: chatId,
         content: messagePayload.content,
         role: "user",
       });
 
+      // 2. Generate vector for user input
       const userVector = await aiService.generateVector(messagePayload.content);
 
+      // Save user message to memory
       await createMemory({
-        id: message._id, // unique ID
+        id: message._id.toString(),
         vector: userVector,
         metadata: {
-          user: socket.user.id,
-          chat: messagePayload.chat,
+          user: userId,
+          chat: chatId,
           role: "user",
           text: messagePayload.content,
         },
       });
 
-      const memory = await queryMemory({
+      // 3. Short-term memory (semantic, scoped to chat)
+      const stm = await queryMemory({
         queryVector: userVector,
-        limit: 3,
-        metadata: { user: socket.user.id, chat: messagePayload.chat },
+        limit: 5,
+        user: userId,
+        chat: chatId,
+        scope: "stm",
       });
-      console.log("🧠 Retrieved Memory:", memory);
 
+      // 4. Long-term memory (semantic, across chats)
+      const ltm = await queryMemory({
+        queryVector: userVector,
+        limit: 5,
+        user: userId,
+        scope: "ltm",
+      });
+
+      // 5. Raw chat history (chronological)
       const chatHistory = (
         await messageModel
-          .find({ chat: messagePayload.chat })
+          .find({ chat: chatId })
           .sort({ createdAt: -1 })
           .limit(20)
           .lean()
       ).reverse();
 
-      const response = await aiService.generateResponse(
-        chatHistory.map((item) => ({
-          role: item.role,
-          parts: [{ text: item.content }],
-        }))
-      );
+      // ✅ Format all into same structure
+      const shortTermMemory = stm.map((item) => ({
+        role: item.metadata.role,
+        parts: [{ text: item.metadata.text }],
+      }));
 
+      const longTermMemory = ltm.map((item) => ({
+        role: item.metadata.role,
+        parts: [{ text: item.metadata.text }],
+      }));
+
+      const chronologicalHistory = chatHistory.map((item) => ({
+        role: item.role,
+        parts: [{ text: item.content }],
+      }));
+
+      // 6. Merge all context
+      // Order: LTM (global) → STM (semantic current chat) → Chronological history
+      const messages = [
+        ...longTermMemory,
+        ...shortTermMemory,
+        ...chronologicalHistory,
+      ];
+
+      // 7. Generate AI response
+      const response = await aiService.generateResponse(messages);
+
+      // 8. Save response to DB
       const responseMessage = await messageModel.create({
-        user: socket.user.id,
-        chat: messagePayload.chat,
+        user: userId,
+        chat: chatId,
         content: response,
         role: "model",
       });
 
+      // 9. Save response to Pinecone (memory)
       const responseVector = await aiService.generateVector(response);
-
       await createMemory({
-        id: responseMessage._id,
+        id: responseMessage._id.toString(),
         vector: responseVector,
         metadata: {
-          user: socket.user.id,
-          chat: messagePayload.chat,
+          user: userId,
+          chat: chatId,
           role: "model",
           text: response,
         },
       });
 
+      // 10. Emit back to user
       socket.emit("ai-response", {
         content: response,
-        chat: messagePayload.chat,
+        chat: chatId,
       });
-    });
-
-    // ---- Delete Message Event ----
-    socket.on("delete-message", async ({ messageId }) => {
-      try {
-        // Find and delete message from DB
-        const message = await messageModel.findOneAndDelete({
-          _id: messageId,
-          user: socket.user.id,
-        });
-
-        if (!message) {
-          return socket.emit("delete-error", { message: "Message not found or unauthorized" });
-        }
-
-        // Delete from Pinecone
-        await deleteMemory(messageId);
-
-        // Notify client
-        socket.emit("message-deleted", { messageId });
-        console.log(`🗑️ Message + Memory deleted: ${messageId}`);
-      } catch (err) {
-        console.error("❌ Error deleting message:", err);
-        socket.emit("delete-error", { message: "Failed to delete message" });
-      }
     });
 
     socket.on("disconnect", () => {
